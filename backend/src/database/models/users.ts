@@ -1,4 +1,4 @@
-import { INTEGER, Model, STRING } from 'sequelize';
+import { INTEGER, Model, STRING, DATE } from 'sequelize';
 import db from '.';
 import Account from './accounts';
 
@@ -26,6 +26,14 @@ User.init({
   },
   accountId: {
     type: INTEGER,
+    allowNull: false,
+  },
+  createdAt: {
+    type: DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DATE,
     allowNull: false,
   },
 }, {

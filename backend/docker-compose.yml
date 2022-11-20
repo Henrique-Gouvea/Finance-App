@@ -19,7 +19,7 @@ services:
       - JWT_SECRET=jwt_secret
       - DIALECT=postgres
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:3001"]
+      test: [ "CMD", "lsof", "-t", "-i:3001" ]
       timeout: 10s
       retries: 5
     volumes:
@@ -28,6 +28,7 @@ services:
     image: postgres
     container_name: db
     platform: linux/x86_64
+    user: postgres
     ports:
       - 5432:5432
     environment:
@@ -35,7 +36,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     restart: 'always'
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: [ "CMD", "pg_isready" ]
       timeout: 10s
       retries: 5
     cap_add:

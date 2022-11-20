@@ -1,3 +1,6 @@
-export interface IService<T> {
-  create(props: any): Promise<T>
+import User from '../database/models/users';
+
+export interface IService {
+  create(username: string, password: string): Promise<User>
+  login(username: string, password: string): Promise<User>
 }

@@ -33,6 +33,10 @@ Transaction.init({
     type: DATE,
     allowNull: false,
   },
+  updatedAt: {
+    type: DATE,
+    allowNull: false,
+  },
 }, {
   sequelize: db,
   modelName: 'transactions',

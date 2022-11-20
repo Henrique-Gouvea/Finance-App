@@ -1,4 +1,4 @@
-import { INTEGER, Model } from 'sequelize';
+import { INTEGER, Model, DATE } from 'sequelize';
 import db from '.';
 
 class Account extends Model {
@@ -15,6 +15,14 @@ Account.init({
   },
   balance: {
     type: INTEGER,
+    allowNull: false,
+  },
+  createdAt: {
+    type: DATE,
+    allowNull: false,
+  },
+  updatedAt: {
+    type: DATE,
     allowNull: false,
   },
 }, {

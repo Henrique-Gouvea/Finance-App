@@ -8,13 +8,14 @@ const express_1 = __importDefault(require("express"));
 require("express-async-errors");
 const cors_1 = __importDefault(require("cors"));
 const http_status_codes_1 = require("http-status-codes");
-// import loginRouter from './routes/loginRouter';
+const user_router_1 = __importDefault(require("./routes/user.router"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
+        this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)());
         this.config();
-        // this.app.use('/login', loginRouter);
+        this.app.use('/user', user_router_1.default);
         this.app.get('/', (req, res) => res.status(http_status_codes_1.StatusCodes.OK).json({ ok: true }));
     }
     config() {
