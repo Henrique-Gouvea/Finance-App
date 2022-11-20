@@ -21,7 +21,16 @@ export default class UserController {
     try {
       const { username, password } = req.body;
       const user = await this.userService.login(username, password);
-      res.status(StatusCodes.OK).json(user);
+      res.status(StatusCodes.OK).json({ user: user.username, id: user.id });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getBalance(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const balance = await this.userService.getBalance();
+      res.status(StatusCodes.OK).json({ balance });
     } catch (err) {
       next(err);
     }

@@ -21,4 +21,6 @@ router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, ne
 
 router.post('/login', uservalidation, userController.login.bind(userController));
 
+router.get('/balance', userController.getBalance.bind(userController));
+
 export default router;
