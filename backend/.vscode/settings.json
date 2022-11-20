@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "database",
-        "Docker"
+        "Docker",
+        "routes"
     ]
 }

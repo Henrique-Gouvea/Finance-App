@@ -2,16 +2,18 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import { StatusCodes } from 'http-status-codes';
-// import loginRouter from './routes/loginRouter';
+import userRouter from './routes/user.router';
 
 class App {
   public app: express.Express;
 
   constructor() {
     this.app = express();
+    this.app.use(express.json());
     this.app.use(cors());
     this.config();
-    // this.app.use('/login', loginRouter);
+
+    this.app.use('/user', userRouter);
 
     this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ ok: true }));
   }
