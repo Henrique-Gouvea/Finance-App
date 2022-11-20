@@ -2,13 +2,18 @@ import User from '../database/models/users';
 import Account from '../database/models/accounts';
 import { IService } from '../interfaces/IService';
 import passwordService from '../helpers/password';
+import { IToken } from '../interfaces/providers/IToken';
+import { ICrypto } from '../interfaces/providers/ICrypto';
 
 const INITIAL_VALUE_BALANCE = 100;
 
 export default class UserService implements IService {
-  async create(username: string, password: string): Promise<User> {
-    console.log(this.create);
+  constructor(
+    private token: IToken,
+    private crypto: ICrypto,
+  ) { }
 
+  async create(username: string, password: string): Promise<string> {
     const userDB: User | null = await User.findOne({ where: { username } });
     if (userDB) {
       const e = new Error('Usuario ja cadastrado!');
@@ -17,23 +22,28 @@ export default class UserService implements IService {
     }
 
     const balance = INITIAL_VALUE_BALANCE;
-    const passwordHash = passwordService.encryptPassword(password);
+    const passwordHash = this.crypto.encryptPassword(password);
+    try {
+      const account: Account = await Account.create({ balance });
+      await User.create({ accountId: account.id, username, password: passwordHash });
+    } catch {
+      const e = new Error('Erro ao conectar com o banco "create"');
+      throw e;
+    }
+    const token = this.token.generateToken(username);
 
-    const account: Account = await Account.create({ balance });
-    const user: User = await User.create({
-      accountId: account.id, username, password: passwordHash,
-    });
-
-    return user;
+    return token;
   }
 
   async login(username: string, password: string): Promise<User> {
-    console.log(this.login);
-
     const user: User | null = await User.findOne({ where: { username } });
+    let valid = false;
+    if (user) {
+      valid = this.crypto.verifyPassword(password, user.password);
+    }
 
-    if (!user) {
-      const e = new Error('Usuario não encontrado');
+    if (!valid || !user) {
+      const e = new Error('Usuario ou senha incorreto.');
       e.name = 'NotFound';
       throw e;
     }

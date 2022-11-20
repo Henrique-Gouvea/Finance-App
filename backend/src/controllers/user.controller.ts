@@ -10,8 +10,8 @@ export default class UserController {
     try {
       const { username, password } = req.body;
 
-      const user = await this.userService.create(username, password);
-      res.status(StatusCodes.CREATED).json(user);
+      const token = await this.userService.create(username, password);
+      res.status(StatusCodes.CREATED).json(token);
     } catch (err) {
       next(err);
     }

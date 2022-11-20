@@ -16,24 +16,41 @@ const users_1 = __importDefault(require("../database/models/users"));
 const accounts_1 = __importDefault(require("../database/models/accounts"));
 const INITIAL_VALUE_BALANCE = 100;
 class UserService {
+    constructor(token, crypto) {
+        this.token = token;
+        this.crypto = crypto;
+    }
     create(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('teste');
-            console.log(this.create);
-            console.log('teste2');
+            const userDB = yield users_1.default.findOne({ where: { username } });
+            if (userDB) {
+                const e = new Error('Usuario ja cadastrado!');
+                e.name = 'Conflict';
+                throw e;
+            }
             const balance = INITIAL_VALUE_BALANCE;
-            const account = yield accounts_1.default.create({ balance });
-            const user = yield users_1.default.create({ accountId: account.id, username, password });
-            console.log('teetet');
-            return user;
+            const passwordHash = this.crypto.encryptPassword(password);
+            try {
+                const account = yield accounts_1.default.create({ balance });
+                yield users_1.default.create({ accountId: account.id, username, password: passwordHash });
+            }
+            catch (_a) {
+                const e = new Error('Erro ao conectar com o banco "create"');
+                throw e;
+            }
+            const token = this.token.generateToken(username);
+            return token;
         });
     }
     login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.login);
             const user = yield users_1.default.findOne({ where: { username } });
-            if (!user) {
-                const e = new Error('Usuario não encontrado');
+            let valid = false;
+            if (user) {
+                valid = this.crypto.verifyPassword(password, user.password);
+            }
+            if (!valid || !user) {
+                const e = new Error('Usuario ou senha incorreto.');
                 e.name = 'NotFound';
                 throw e;
             }

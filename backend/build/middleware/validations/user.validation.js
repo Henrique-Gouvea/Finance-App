@@ -17,7 +17,8 @@ const uservalidation = (req, _res, next) => {
             'any.required': 'O \'password\' tem que existir\'',
         }),
     });
-    const { error } = schema.validate(req.body);
+    const { username, password } = req.body;
+    const { error } = schema.validate({ username, password });
     if (error)
         throw error;
     next();

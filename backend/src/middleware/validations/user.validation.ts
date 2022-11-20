@@ -17,11 +17,9 @@ const uservalidation = (req: Request, _res: Response, next: NextFunction) => {
         'any.required': 'O \'password\' tem que existir\'',
       }),
   });
-
-  const { error } = schema.validate(req.body);
-
+  const { username, password } = req.body;
+  const { error } = schema.validate({ username, password });
   if (error) throw error;
-
   next();
 };
 

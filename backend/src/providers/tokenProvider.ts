@@ -1,6 +1,6 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import 'dotenv/config';
-import { IToken } from '../interfaces/helpers/IToken';
+import { IToken } from '../interfaces/providers/IToken';
 
 class tokenProvider implements IToken {
   private jwtSecret: string;
@@ -19,7 +19,11 @@ class tokenProvider implements IToken {
 
   checkToken(token: string): string {
     try {
+      console.log(`checktoken${token}`);
+
       const response = verify(token, this.jwtSecret);
+      console.log(response);
+
       if (!response) {
         const e = new Error('Token invalido');
         e.name = 'Unauthorized';

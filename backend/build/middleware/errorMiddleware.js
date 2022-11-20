@@ -6,8 +6,11 @@ const errorMiddleware = (err, _req, res, _next) => {
     console.log(name);
     console.log('error middleware');
     switch (name) {
-        case 'ValidationError':
+        case 'BadRequest':
             res.status(http_status_codes_1.StatusCodes.BAD_REQUEST).json({ message });
+            break;
+        case 'Conflict':
+            res.status(http_status_codes_1.StatusCodes.CONFLICT).json({ message });
             break;
         case 'Unauthorized':
             res.status(http_status_codes_1.StatusCodes.UNAUTHORIZED).json({ message });
