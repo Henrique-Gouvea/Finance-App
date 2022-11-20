@@ -15,25 +15,27 @@ class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log('teste');
-            const { username, password } = req.body;
-            console.log(username);
-            const user = yield this.userService.create(username, password);
-            res.status(http_status_codes_1.StatusCodes.CREATED).json(user);
-        });
-    }
-    login(req, res) {
+    create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('teste');
                 const { username, password } = req.body;
-                const user = yield this.userService.login(username, password);
-                res.status(200).json(user);
+                const user = yield this.userService.create(username, password);
+                res.status(http_status_codes_1.StatusCodes.CREATED).json(user);
             }
             catch (err) {
-                console.log(err);
+                next(err);
+            }
+        });
+    }
+    login(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { username, password } = req.body;
+                const user = yield this.userService.login(username, password);
+                res.status(http_status_codes_1.StatusCodes.OK).json(user);
+            }
+            catch (err) {
+                next(err);
             }
         });
     }

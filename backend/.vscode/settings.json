@@ -4,6 +4,7 @@
         "Docker",
         "routes",
         "controller",
-        "Services"
+        "Services",
+        "Middleware"
     ]
 }

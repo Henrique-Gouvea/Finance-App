@@ -14,21 +14,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const users_1 = __importDefault(require("../database/models/users"));
 const accounts_1 = __importDefault(require("../database/models/accounts"));
+const INITIAL_VALUE_BALANCE = 100;
 class UserService {
     create(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            const balance = 100;
-            const account = yield accounts_1.default.create({ balance });
-            const user = yield users_1.default.create({ accountId: account.id, username, password });
-            return user;
+            const balance = INITIAL_VALUE_BALANCE;
+            try {
+                const account = yield accounts_1.default.create({ balance });
+                const user = yield users_1.default.create({ accountId: account.id, username, password });
+                return user;
+            }
+            catch (err) {
+                const e = new Error('Atendimento para esse pet e esse veterinário já existe');
+                e.name = 'ConflictError';
+                throw e;
+            }
         });
     }
     login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('service' + password);
             const user = yield users_1.default.findOne({ where: { username } });
             if (!user) {
-                throw new Error('Incorrect email or password');
+                const e = new Error('Usuario não encontrado');
+                e.name = 'NotFound';
+                throw e;
             }
             return user;
         });

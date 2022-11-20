@@ -9,6 +9,7 @@ require("express-async-errors");
 const cors_1 = __importDefault(require("cors"));
 const http_status_codes_1 = require("http-status-codes");
 const user_router_1 = __importDefault(require("./routes/user.router"));
+const errorMiddleware_1 = __importDefault(require("./middleware/errorMiddleware"));
 class App {
     constructor() {
         this.app = (0, express_1.default)();
@@ -17,6 +18,7 @@ class App {
         this.config();
         this.app.use('/user', user_router_1.default);
         this.app.get('/', (req, res) => res.status(http_status_codes_1.StatusCodes.OK).json({ ok: true }));
+        this.app.use(errorMiddleware_1.default);
     }
     config() {
         const accessControl = (_req, res, next) => {
