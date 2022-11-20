@@ -25,17 +25,17 @@ services:
     volumes:
       - ./:/app-backend
   db:
-    image: postgres:10.17
+    image: postgres
     container_name: db
     platform: linux/x86_64
     ports:
-      - 3002:5432
+      - 5432:5432
     environment:
-      - POSTGRES_PASSWORD= postgres
-      - POSTGRES_DB= postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     restart: 'always'
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD", "pg_isready"]
       timeout: 10s
       retries: 5
     cap_add:

@@ -1,3 +1,7 @@
 /*.js
 node_modules
 public
+src/database/migrations
+src/database/seeders
+src/database/config
+src/database/models/index.ts
