@@ -1,13 +1,12 @@
 import User from '../database/models/users';
 import Account from '../database/models/accounts';
-import { IService } from '../interfaces/IService';
-import passwordService from '../helpers/password';
+import { IServiceUser } from '../interfaces/IService';
 import { IToken } from '../interfaces/providers/IToken';
 import { ICrypto } from '../interfaces/providers/ICrypto';
 
 const INITIAL_VALUE_BALANCE = 100;
 
-export default class UserService implements IService {
+export default class UserService implements IServiceUser {
   constructor(
     private token: IToken,
     private crypto: ICrypto,

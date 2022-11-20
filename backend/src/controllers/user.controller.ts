@@ -1,17 +1,17 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
-import { IService } from '../interfaces/IService';
+import { IServiceUser } from '../interfaces/IService';
 // import User from '../database/models/users';
 
 export default class UserController {
-  constructor(private userService: IService) { }
+  constructor(private userService: IServiceUser) { }
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { username, password } = req.body;
 
       const token = await this.userService.create(username, password);
-      res.status(StatusCodes.CREATED).json(token);
+      res.status(StatusCodes.CREATED).json({ token });
     } catch (err) {
       next(err);
     }
