@@ -32,7 +32,19 @@ class UserController {
             try {
                 const { username, password } = req.body;
                 const user = yield this.userService.login(username, password);
-                res.status(http_status_codes_1.StatusCodes.OK).json(user);
+                res.status(http_status_codes_1.StatusCodes.OK).json({ user: user.username, id: user.id });
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
+    getBalance(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { user } = req.body;
+                const balance = yield this.userService.getBalance(user);
+                res.status(http_status_codes_1.StatusCodes.OK).json({ balance });
             }
             catch (err) {
                 next(err);

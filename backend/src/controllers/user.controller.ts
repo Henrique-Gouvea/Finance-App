@@ -29,7 +29,8 @@ export default class UserController {
 
   async getBalance(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const balance = await this.userService.getBalance();
+      const { user } = req.body;
+      const balance = await this.userService.getBalance(user);
       res.status(StatusCodes.OK).json({ balance });
     } catch (err) {
       next(err);

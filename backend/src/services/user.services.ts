@@ -50,4 +50,22 @@ export default class UserService implements IService {
 
     return user;
   }
+
+  async getBalance(user: string): Promise<number> {
+    console.log(this.getBalance);
+
+    const userDB: User | null = await User.findOne({ where: { username: user } });
+    let account = null;
+    if (userDB) {
+      account = await Account.findOne({ where: { id: userDB.id } });
+    }
+
+    if (!account) {
+      const e = new Error('Erro na consulta');
+      e.name = 'NotFound';
+      throw e;
+    }
+
+    return account.balance;
+  }
 }

@@ -57,5 +57,21 @@ class UserService {
             return user;
         });
     }
+    getBalance(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.getBalance);
+            const userDB = yield users_1.default.findOne({ where: { username: user } });
+            let account = null;
+            if (userDB) {
+                account = yield accounts_1.default.findOne({ where: { id: userDB.id } });
+            }
+            if (!account) {
+                const e = new Error('Erro na consulta');
+                e.name = 'NotFound';
+                throw e;
+            }
+            return account.balance;
+        });
+    }
 }
 exports.default = UserService;

@@ -9,7 +9,6 @@ class tokenMiddleware {
   checkTokenMiddleware(req: Request, res: Response, next: NextFunction): void {
     try {
       const { authorization } = req.headers;
-      console.log(authorization);
 
       if (!authorization) {
         const e = new Error('Token inexistente');
@@ -19,7 +18,6 @@ class tokenMiddleware {
 
       const data = this.tokenIn.checkToken(authorization);
       req.body.user = data;
-      console.log(data);
 
       next();
     } catch (err) {
