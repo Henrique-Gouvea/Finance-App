@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 const Joi = require('joi');
 
-const uservalidation = (req: Request, _res: Response) => {
+const uservalidation = (req: Request, _res: Response, next: NextFunction) => {
   const schema = Joi.object({
     username: Joi.string().min(3).required()
       .messages({
@@ -9,7 +9,7 @@ const uservalidation = (req: Request, _res: Response) => {
         'string.min': 'O \'username\' tem que ter no minimo 3 letras\'',
         'any.required': 'O \'username\' tem que existir\'',
       }),
-    password: Joi.string().min(8).regex(/^(?=\S*[A-Z])(?=\S*[0-9])$/).required()
+    password: Joi.string().min(8).regex(/((?=.*\d)(?=.*[A-Z])).*$/).required()
       .messages({
         'string.base': 'O \'password\' tem que ser uma string\'',
         'string.min': 'O \'password\' tem que ter no minimo 8 letras\'',
@@ -18,11 +18,11 @@ const uservalidation = (req: Request, _res: Response) => {
       }),
   });
 
-  const { error, value } = schema.validate(req.body);
+  const { error } = schema.validate(req.body);
 
   if (error) throw error;
 
-  return value;
+  next();
 };
 
 export default uservalidation;

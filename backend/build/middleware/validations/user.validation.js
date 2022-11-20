@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const Joi = require('joi');
-const uservalidation = (req, _res) => {
+const uservalidation = (req, _res, next) => {
     const schema = Joi.object({
         username: Joi.string().min(3).required()
             .messages({
@@ -9,7 +9,7 @@ const uservalidation = (req, _res) => {
             'string.min': 'O \'username\' tem que ter no minimo 3 letras\'',
             'any.required': 'O \'username\' tem que existir\'',
         }),
-        password: Joi.string().min(8).regex(/^(?=\S*[A-Z])(?=\S*[0-9])$/).required()
+        password: Joi.string().min(8).regex(/((?=.*\d)(?=.*[A-Z])).*$/).required()
             .messages({
             'string.base': 'O \'password\' tem que ser uma string\'',
             'string.min': 'O \'password\' tem que ter no minimo 8 letras\'',
@@ -17,9 +17,9 @@ const uservalidation = (req, _res) => {
             'any.required': 'O \'password\' tem que existir\'',
         }),
     });
-    const { error, value } = schema.validate(req.body);
+    const { error } = schema.validate(req.body);
     if (error)
         throw error;
-    return value;
+    next();
 };
 exports.default = uservalidation;

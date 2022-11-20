@@ -18,10 +18,13 @@ const INITIAL_VALUE_BALANCE = 100;
 class UserService {
     create(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('teste');
             console.log(this.create);
+            console.log('teste2');
             const balance = INITIAL_VALUE_BALANCE;
             const account = yield accounts_1.default.create({ balance });
             const user = yield users_1.default.create({ accountId: account.id, username, password });
+            console.log('teetet');
             return user;
         });
     }
