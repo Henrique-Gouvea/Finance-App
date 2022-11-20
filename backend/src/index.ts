@@ -1,6 +1,7 @@
 import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import { StatusCodes } from 'http-status-codes';
 // import loginRouter from './routes/loginRouter';
 
 class App {
@@ -12,7 +13,7 @@ class App {
     this.config();
     // this.app.use('/login', loginRouter);
 
-    this.app.get('/', (req, res) => res.json({ ok: true }));
+    this.app.get('/', (req, res) => res.status(StatusCodes.OK).json({ ok: true }));
   }
 
   private config():void {

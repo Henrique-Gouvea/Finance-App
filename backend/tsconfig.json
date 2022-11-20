@@ -4,7 +4,7 @@
     "target": "es2016",
     "module": "commonjs",
     "rootDir": "./src",
-    "outDir": "./public",
+    "outDir": "./build",
     "preserveConstEnums": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

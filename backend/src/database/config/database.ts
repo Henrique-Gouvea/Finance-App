@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { Options } from 'sequelize';
+import { Dialect, Options } from 'sequelize';
 
 const config: Options = {
   username: process.env.DB_USER,
@@ -7,8 +7,8 @@ const config: Options = {
   database: 'FINANCE_APP',
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
-  dialect: 'postgres',
+  dialect: process.env.DIALECT as Dialect,
   logging: false,
-}
+};
 
-module.exports = config;
+export = config;

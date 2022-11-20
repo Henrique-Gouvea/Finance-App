@@ -7,6 +7,7 @@ exports.app = exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 require("express-async-errors");
 const cors_1 = __importDefault(require("cors"));
+const http_status_codes_1 = require("http-status-codes");
 // import loginRouter from './routes/loginRouter';
 class App {
     constructor() {
@@ -14,7 +15,7 @@ class App {
         this.app.use((0, cors_1.default)());
         this.config();
         // this.app.use('/login', loginRouter);
-        this.app.get('/', (req, res) => res.json({ ok: true }));
+        this.app.get('/', (req, res) => res.status(http_status_codes_1.StatusCodes.OK).json({ ok: true }));
     }
     config() {
         const accessControl = (_req, res, next) => {
