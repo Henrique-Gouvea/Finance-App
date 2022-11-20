@@ -1,15 +1,13 @@
-import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import { Request, Response } from 'express';
+import { IService } from '../interfaces/IService';
+import User from '../database/models/users';
 
-const usersService = require('../services/usersService');
+export default class UserController {
+  constructor(private userService: IService<User>) { }
 
-const usersController = {
-
-  create: async (req: Request, res: Response) => {
-    const user = await usersService.create(req.body);
-
+  async create(req: Request, res: Response): Promise<void> {
+    const user = await this.userService.create(req.body);
     res.status(StatusCodes.CREATED).json(user);
-  },
-};
-
-module.exports = usersController;
+  }
+}

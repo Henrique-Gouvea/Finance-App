@@ -3,6 +3,7 @@
         "database",
         "Docker",
         "routes",
-        "controller"
+        "controller",
+        "Services"
     ]
 }
