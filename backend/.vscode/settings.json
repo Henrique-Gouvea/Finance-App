@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "database",
         "Docker",
-        "routes"
+        "routes",
+        "controller"
     ]
 }
