@@ -18,21 +18,16 @@ const INITIAL_VALUE_BALANCE = 100;
 class UserService {
     create(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.create);
             const balance = INITIAL_VALUE_BALANCE;
-            try {
-                const account = yield accounts_1.default.create({ balance });
-                const user = yield users_1.default.create({ accountId: account.id, username, password });
-                return user;
-            }
-            catch (err) {
-                const e = new Error('Atendimento para esse pet e esse veterinário já existe');
-                e.name = 'ConflictError';
-                throw e;
-            }
+            const account = yield accounts_1.default.create({ balance });
+            const user = yield users_1.default.create({ accountId: account.id, username, password });
+            return user;
         });
     }
     login(username, password) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.login);
             const user = yield users_1.default.findOne({ where: { username } });
             if (!user) {
                 const e = new Error('Usuario não encontrado');
