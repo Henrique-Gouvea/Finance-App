@@ -5,6 +5,7 @@
         "routes",
         "controller",
         "Services",
-        "Middleware"
+        "Middleware",
+        "helpers"
     ]
 }

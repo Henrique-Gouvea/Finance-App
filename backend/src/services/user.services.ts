@@ -6,10 +6,14 @@ const INITIAL_VALUE_BALANCE = 100;
 
 export default class UserService implements IService {
   async create(username: string, password: string): Promise<User> {
-    console.log('teste');
-
     console.log(this.create);
-    console.log('teste2');
+
+    const userDB: User | null = await User.findOne({ where: { username } });
+    if (userDB) {
+      const e = new Error('Usuario ja cadastrado!');
+      e.name = 'Conflict';
+      throw e;
+    }
 
     const balance = INITIAL_VALUE_BALANCE;
 
@@ -30,7 +34,6 @@ export default class UserService implements IService {
       e.name = 'NotFound';
       throw e;
     }
-
 
     return user;
   }
