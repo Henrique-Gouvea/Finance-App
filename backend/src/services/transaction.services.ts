@@ -116,11 +116,15 @@ export default class TransactionService implements IServiceTransactions {
               [Op.or]: [
                 { debitedAccountId: cashOut ? id : 0 },
                 { creditedAccountId: cashIn ? id : 0 },
-                // { createdAt: date && date === ? id : 0 },
               ],
             },
           });
       }
+      console.log(transactions);
+
+      // const dateFilteredTransactions = transactions.filter((transaction) => )
+      // console.log(dateFilteredTransactions);
+
       return transactions;
     } catch (err) {
       const e = new Error('Erro na transferencia');

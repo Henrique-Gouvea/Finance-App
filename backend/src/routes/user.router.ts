@@ -17,9 +17,9 @@ const userController = new UserController(userService);
 
 router.post('/cadaster', uservalidation, userController.create.bind(userController));
 
-router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, next));
-
 router.post('/login', uservalidation, userController.login.bind(userController));
+
+router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, next));
 
 router.get('/balance', userController.getBalance.bind(userController));
 
