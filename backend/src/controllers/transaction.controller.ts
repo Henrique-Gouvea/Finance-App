@@ -7,10 +7,12 @@ export default class TransactionController {
 
   async cashOut(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { cashOutValue } = req.body;
+      const { username, cashOutValue, user } = req.body;
 
-      await this.transactionsService.cashOut(Number(cashOutValue));
-      res.status(StatusCodes.OK).json({ message: 'Transaction Sucess' });
+      const valuesTransaction = await this.transactionsService
+        .validateTrasaction(username, Number(cashOutValue), user);
+      await this.transactionsService.
+        res.status(StatusCodes.OK).json({ message: 'Transaction Sucess' });
     } catch (err) {
       next(err);
     }
