@@ -133,7 +133,7 @@ Retorna todas as transações em que o usuario participou.
 ```
 
 ---
-## O endpoint é capaz de criar uma transação para um usuario especifico;
+## O endpoint filtra as transações do usuario saida, entrada e data;
 
 - O endpoint deve ser acessível através do caminho POST(`/transactions`);
 ```json
