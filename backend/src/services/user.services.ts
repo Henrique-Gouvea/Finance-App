@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import User from '../database/models/users';
 import Account from '../database/models/accounts';
 import { IServiceUser } from '../interfaces/IService';
@@ -51,8 +52,6 @@ export default class UserService implements IServiceUser {
   }
 
   async getBalance(user: string): Promise<number> {
-    console.log(this.getBalance);
-
     const userDB: User | null = await User.findOne({ where: { username: user } });
     let account = null;
     if (userDB) {

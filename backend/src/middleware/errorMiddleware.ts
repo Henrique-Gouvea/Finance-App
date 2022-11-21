@@ -4,8 +4,6 @@ import { StatusCodes } from 'http-status-codes';
 
 const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
   const { name, message } = err;
-  console.log(name);
-  console.log('error middleware');
 
   switch (name) {
     case 'BadRequest':

@@ -19,10 +19,7 @@ class tokenProvider implements IToken {
 
   checkToken(token: string): string {
     try {
-      console.log(`checktoken${token}`);
-
       const response = verify(token, this.jwtSecret);
-      console.log(response);
 
       if (!response) {
         const e = new Error('Token invalido');

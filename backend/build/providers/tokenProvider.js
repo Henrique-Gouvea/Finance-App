@@ -15,9 +15,7 @@ class tokenProvider {
     }
     checkToken(token) {
         try {
-            console.log(`checktoken${token}`);
             const response = (0, jsonwebtoken_1.verify)(token, this.jwtSecret);
-            console.log(response);
             if (!response) {
                 const e = new Error('Token invalido');
                 e.name = 'Unauthorized';

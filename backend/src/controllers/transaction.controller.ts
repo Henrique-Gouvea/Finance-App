@@ -8,11 +8,9 @@ export default class TransactionController {
   async cashOut(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { username, cashOutValue, user } = req.body;
-      console.log(username);
 
       const valuesTransaction = await this.transactionsService
         .validateTrasaction(username, Number(cashOutValue), user);
-      console.log(valuesTransaction);
 
       await this.transactionsService.transaction(valuesTransaction);
 

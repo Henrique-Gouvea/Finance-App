@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable max-lines-per-function */
 import { Op } from 'sequelize';
 import User from '../database/models/users';
@@ -14,7 +15,6 @@ export default class TransactionService implements IServiceTransactions {
     debitedBalanceUpdated,
     creditedBalanceUpdated,
   }: ITransaction): Promise<void> {
-    console.log(this.transaction);
     try {
       await Transaction.create({ debitedAccountId, creditedAccountId, value });
       await Account.update({ balance: debitedBalanceUpdated }, { where: { id: debitedAccountId } });
@@ -34,8 +34,6 @@ export default class TransactionService implements IServiceTransactions {
     usernameCashOut: string,
   )
     : Promise<ITransaction> {
-    console.log(this.validateTrasaction);
-
     if (usernameCashIn === usernameCashOut) {
       const e = new Error('Transferencia para mesma conta');
       e.name = 'Unauthorized';
@@ -77,7 +75,6 @@ export default class TransactionService implements IServiceTransactions {
   }
 
   async getAllTransactions(user: string): Promise<Transaction[]> {
-    console.log(this.transaction);
     try {
       const userDB: User | null = await User.findOne({ where: { username: user } });
       let transactions: Transaction[] = [];
@@ -96,7 +93,6 @@ export default class TransactionService implements IServiceTransactions {
       }
       return transactions;
     } catch (err) {
-      console.log(err);
       const e = new Error('Erro na transferencia');
       throw e;
     }
@@ -108,7 +104,6 @@ export default class TransactionService implements IServiceTransactions {
     date: string,
     user: string,
   ): Promise<Transaction[]> {
-    console.log(this.transaction);
     try {
       const userDB: User | null = await User.findOne({ where: { username: user } });
       let transactions: Transaction[] = [];
@@ -121,13 +116,13 @@ export default class TransactionService implements IServiceTransactions {
               [Op.or]: [
                 { debitedAccountId: cashOut ? id : 0 },
                 { creditedAccountId: cashIn ? id : 0 },
+                // { createdAt: date && date === ? id : 0 },
               ],
             },
           });
       }
       return transactions;
     } catch (err) {
-      console.log(err);
       const e = new Error('Erro na transferencia');
       throw e;
     }

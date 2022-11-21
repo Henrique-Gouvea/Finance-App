@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable class-methods-use-this */
 /* eslint-disable max-lines-per-function */
 const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("../database/models/users"));
@@ -20,7 +21,6 @@ const transactions_1 = __importDefault(require("../database/models/transactions"
 class TransactionService {
     transaction({ debitedAccountId, creditedAccountId, value, debitedBalanceUpdated, creditedBalanceUpdated, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.transaction);
             try {
                 yield transactions_1.default.create({ debitedAccountId, creditedAccountId, value });
                 yield accounts_1.default.update({ balance: debitedBalanceUpdated }, { where: { id: debitedAccountId } });
@@ -34,7 +34,6 @@ class TransactionService {
     }
     validateTrasaction(usernameCashIn, cashOutValue, usernameCashOut) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.validateTrasaction);
             if (usernameCashIn === usernameCashOut) {
                 const e = new Error('Transferencia para mesma conta');
                 e.name = 'Unauthorized';
@@ -71,7 +70,6 @@ class TransactionService {
     }
     getAllTransactions(user) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.transaction);
             try {
                 const userDB = yield users_1.default.findOne({ where: { username: user } });
                 let transactions = [];
@@ -90,7 +88,6 @@ class TransactionService {
                 return transactions;
             }
             catch (err) {
-                console.log(err);
                 const e = new Error('Erro na transferencia');
                 throw e;
             }
@@ -98,7 +95,6 @@ class TransactionService {
     }
     filterTransaction(cashOut, cashIn, date, user) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.transaction);
             try {
                 const userDB = yield users_1.default.findOne({ where: { username: user } });
                 let transactions = [];
@@ -110,6 +106,7 @@ class TransactionService {
                             [sequelize_1.Op.or]: [
                                 { debitedAccountId: cashOut ? id : 0 },
                                 { creditedAccountId: cashIn ? id : 0 },
+                                // { createdAt: date && date === ? id : 0 },
                             ],
                         },
                     });
@@ -117,7 +114,6 @@ class TransactionService {
                 return transactions;
             }
             catch (err) {
-                console.log(err);
                 const e = new Error('Erro na transferencia');
                 throw e;
             }

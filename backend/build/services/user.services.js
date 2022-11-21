@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable class-methods-use-this */
 const users_1 = __importDefault(require("../database/models/users"));
 const accounts_1 = __importDefault(require("../database/models/accounts"));
 const INITIAL_VALUE_BALANCE = 100;
@@ -59,7 +60,6 @@ class UserService {
     }
     getBalance(user) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.getBalance);
             const userDB = yield users_1.default.findOne({ where: { username: user } });
             let account = null;
             if (userDB) {

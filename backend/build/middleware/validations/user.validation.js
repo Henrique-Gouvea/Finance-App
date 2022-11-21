@@ -22,7 +22,6 @@ const uservalidation = (req, _res, next) => {
     });
     const { username, password } = req.body;
     const { error } = schema.validate({ username, password });
-    console.log(error);
     if (error)
         throw error;
     next();
