@@ -15,25 +15,57 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable max-lines-per-function */
 const users_1 = __importDefault(require("../database/models/users"));
 const accounts_1 = __importDefault(require("../database/models/accounts"));
+const transactions_1 = __importDefault(require("../database/models/transactions"));
 class TransactionService {
-    cashOut(usernameCashIn, cashOutValue, usernameCashOut) {
+    transaction({ debitedAccountId, creditedAccountId, value, debitedBalanceUpdated, creditedBalanceUpdated, }) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(this.cashOut);
+            console.log(this.transaction);
+            try {
+                yield transactions_1.default.create({ debitedAccountId, creditedAccountId, value });
+                yield accounts_1.default.update({ balance: debitedBalanceUpdated }, { where: { id: debitedAccountId } });
+                yield accounts_1.default.update({ balance: creditedBalanceUpdated }, { where: { id: creditedAccountId } });
+            }
+            catch (err) {
+                const e = new Error('Erro na transferencia');
+                throw e;
+            }
+        });
+    }
+    validateTrasaction(usernameCashIn, cashOutValue, usernameCashOut) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.validateTrasaction);
             if (usernameCashIn === usernameCashOut) {
                 const e = new Error('Transferencia para mesma conta');
                 e.name = 'Unauthorized';
                 throw e;
             }
-            const userDB = yield users_1.default.findOne({ where: { username: usernameCashOut } });
-            let account = null;
-            if (userDB) {
-                account = yield accounts_1.default.findOne({ where: { id: userDB.id } });
-            }
-            if (account && (account.balance < cashOutValue)) {
-                const e = new Error('Valor de transferencia mais alta que o saldo em conta.');
-                e.name = 'Conflict';
+            const userCashOut = yield users_1.default.findOne({ where: { username: usernameCashOut } });
+            const userCashIn = yield users_1.default.findOne({ where: { username: usernameCashIn } });
+            if (!userCashIn) {
+                const e = new Error('O Usuario informado para transferencia não existe');
+                e.name = 'Unauthorized';
                 throw e;
             }
+            let accountUserCashOut = null;
+            let accountUserCashIn = null;
+            if (userCashOut) {
+                accountUserCashOut = yield accounts_1.default.findOne({ where: { id: userCashOut.id } });
+                accountUserCashIn = yield accounts_1.default.findOne({ where: { id: userCashIn.id } });
+            }
+            if (accountUserCashOut && (accountUserCashOut.balance < cashOutValue)) {
+                const e = new Error('Valor de transferencia mais alta que o saldo em conta.');
+                e.name = 'Unauthorized';
+                throw e;
+            }
+            if (!userCashOut || !accountUserCashOut || !accountUserCashIn)
+                throw new Error();
+            return {
+                debitedAccountId: userCashOut.id,
+                creditedAccountId: userCashIn.id,
+                value: cashOutValue,
+                debitedBalanceUpdated: Number(accountUserCashOut.balance) - cashOutValue,
+                creditedBalanceUpdated: Number(accountUserCashIn.balance) + cashOutValue,
+            };
         });
     }
 }

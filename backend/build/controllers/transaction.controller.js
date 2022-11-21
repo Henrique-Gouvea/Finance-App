@@ -18,7 +18,9 @@ class TransactionController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { username, cashOutValue, user } = req.body;
-                yield this.transactionsService.cashOut(username, Number(cashOutValue), user);
+                const valuesTransaction = yield this.transactionsService
+                    .validateTrasaction(username, Number(cashOutValue), user);
+                yield this.transactionsService.transaction(valuesTransaction);
                 res.status(http_status_codes_1.StatusCodes.OK).json({ message: 'Transaction Sucess' });
             }
             catch (err) {

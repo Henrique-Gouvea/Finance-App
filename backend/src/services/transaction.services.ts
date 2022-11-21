@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import User from '../database/models/users';
 import Account from '../database/models/accounts';
+import Transaction from '../database/models/transactions';
 import { IServiceTransactions } from '../interfaces/IService';
 import { ITransaction } from '../interfaces/values/ITransaction';
 
@@ -13,6 +14,17 @@ export default class TransactionService implements IServiceTransactions {
     creditedBalanceUpdated,
   }: ITransaction): Promise<void> {
     console.log(this.transaction);
+    try {
+      await Transaction.create({ debitedAccountId, creditedAccountId, value });
+      await Account.update({ balance: debitedBalanceUpdated }, { where: { id: debitedAccountId } });
+      await Account.update(
+        { balance: creditedBalanceUpdated },
+        { where: { id: creditedAccountId } },
+      );
+    } catch (err) {
+      const e = new Error('Erro na transferencia');
+      throw e;
+    }
   }
 
   async validateTrasaction(
@@ -58,8 +70,8 @@ export default class TransactionService implements IServiceTransactions {
       debitedAccountId: userCashOut.id,
       creditedAccountId: userCashIn.id,
       value: cashOutValue,
-      debitedBalanceUpdated: Number(accountUserCashOut) - cashOutValue,
-      creditedBalanceUpdated: Number(accountUserCashIn) + cashOutValue,
+      debitedBalanceUpdated: Number(accountUserCashOut.balance) - cashOutValue,
+      creditedBalanceUpdated: Number(accountUserCashIn.balance) + cashOutValue,
     };
   }
 }
