@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable max-lines-per-function */
 import { Request, Response, NextFunction } from 'express';
-const Joi = require('joi');
+
+import Joi from 'joi';
 
 const uservalidation = (req: Request, _res: Response, next: NextFunction) => {
   const schema = Joi.object({
@@ -17,8 +20,11 @@ const uservalidation = (req: Request, _res: Response, next: NextFunction) => {
         'any.required': 'O \'password\' tem que existir\'',
       }),
   });
+
   const { username, password } = req.body;
   const { error } = schema.validate({ username, password });
+  console.log(error);
+
   if (error) throw error;
   next();
 };

@@ -27,7 +27,7 @@ class TransactionService {
                 yield accounts_1.default.update({ balance: creditedBalanceUpdated }, { where: { id: creditedAccountId } });
             }
             catch (err) {
-                const e = new Error('Erro na transferencia');
+                const e = new Error('Erro transferencia');
                 throw e;
             }
         });
@@ -77,14 +77,39 @@ class TransactionService {
                 let transactions = [];
                 if (userDB) {
                     const id = userDB.accountId;
-                    console.log(typeof id);
-                    console.log('henrique');
                     transactions = yield transactions_1.default
                         .findAll({
                         where: {
                             [sequelize_1.Op.or]: [
                                 { debitedAccountId: id },
                                 { creditedAccountId: id },
+                            ],
+                        },
+                    });
+                }
+                return transactions;
+            }
+            catch (err) {
+                console.log(err);
+                const e = new Error('Erro na transferencia');
+                throw e;
+            }
+        });
+    }
+    filterTransaction(cashOut, cashIn, date, user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.transaction);
+            try {
+                const userDB = yield users_1.default.findOne({ where: { username: user } });
+                let transactions = [];
+                if (userDB) {
+                    const id = userDB.accountId;
+                    transactions = yield transactions_1.default
+                        .findAll({
+                        where: {
+                            [sequelize_1.Op.or]: [
+                                { debitedAccountId: cashOut ? id : 0 },
+                                { creditedAccountId: cashIn ? id : 0 },
                             ],
                         },
                     });

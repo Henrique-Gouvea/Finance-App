@@ -19,6 +19,7 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { username, password } = req.body;
+                console.log(username);
                 const token = yield this.userService.create(username, password);
                 res.status(http_status_codes_1.StatusCodes.CREATED).json({ token });
             }

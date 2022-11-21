@@ -18,6 +18,9 @@ const errorMiddleware = (err, _req, res, _next) => {
         case 'NotFound':
             res.status(http_status_codes_1.StatusCodes.NOT_FOUND).json({ message });
             break;
+        case 'ValidationError':
+            res.status(http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY).json({ message });
+            break;
         default:
             res.sendStatus(500);
     }

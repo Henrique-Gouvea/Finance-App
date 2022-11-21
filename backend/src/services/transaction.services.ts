@@ -23,7 +23,7 @@ export default class TransactionService implements IServiceTransactions {
         { where: { id: creditedAccountId } },
       );
     } catch (err) {
-      const e = new Error('Erro na transferencia');
+      const e = new Error('Erro transferencia');
       throw e;
     }
   }
@@ -90,6 +90,37 @@ export default class TransactionService implements IServiceTransactions {
               [Op.or]: [
                 { debitedAccountId: id },
                 { creditedAccountId: id },
+              ],
+            },
+          });
+      }
+      return transactions;
+    } catch (err) {
+      console.log(err);
+      const e = new Error('Erro na transferencia');
+      throw e;
+    }
+  }
+
+  async filterTransaction(
+    cashOut: boolean,
+    cashIn: boolean,
+    date: string,
+    user: string,
+  ): Promise<Transaction[]> {
+    console.log(this.transaction);
+    try {
+      const userDB: User | null = await User.findOne({ where: { username: user } });
+      let transactions: Transaction[] = [];
+      if (userDB) {
+        const id = userDB.accountId;
+
+        transactions = await Transaction
+          .findAll({
+            where: {
+              [Op.or]: [
+                { debitedAccountId: cashOut ? id : 0 },
+                { creditedAccountId: cashIn ? id : 0 },
               ],
             },
           });

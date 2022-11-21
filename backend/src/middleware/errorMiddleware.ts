@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
@@ -18,6 +19,9 @@ const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
       break;
     case 'NotFound':
       res.status(StatusCodes.NOT_FOUND).json({ message });
+      break;
+    case 'ValidationError':
+      res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message });
       break;
     default:
       res.sendStatus(500);
