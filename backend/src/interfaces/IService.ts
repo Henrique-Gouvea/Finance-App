@@ -1,4 +1,5 @@
 import User from '../database/models/users';
+import { ITransaction } from './values/ITransaction';
 
 export interface IServiceUser {
   create(username: string, password: string): Promise<string>
@@ -7,5 +8,15 @@ export interface IServiceUser {
 }
 
 export interface IServiceTransactions {
-  cashOut(cashOutValue: number): Promise<string>
+  validateTrasaction(
+    usernameCashIn: string,
+    cashOutValue: number,
+    usernameCashOut: string): Promise<ITransaction>
+  transaction({
+    debitedAccountId,
+    creditedAccountId,
+    value,
+    debitedBalanceUpdated,
+    creditedBalanceUpdated,
+  }: ITransaction): Promise<void>
 }

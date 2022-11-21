@@ -11,8 +11,10 @@ export default class TransactionController {
 
       const valuesTransaction = await this.transactionsService
         .validateTrasaction(username, Number(cashOutValue), user);
-      await this.transactionsService.
-        res.status(StatusCodes.OK).json({ message: 'Transaction Sucess' });
+      await this.transactionsService.transaction(valuesTransaction);
+      console.log(valuesTransaction);
+
+      res.status(StatusCodes.OK).json({ message: 'Transaction Sucess' });
     } catch (err) {
       next(err);
     }
