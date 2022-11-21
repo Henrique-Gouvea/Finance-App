@@ -1,3 +1,4 @@
+import Transaction from '../database/models/transactions';
 import User from '../database/models/users';
 import { ITransaction } from './values/ITransaction';
 
@@ -19,4 +20,5 @@ export interface IServiceTransactions {
     debitedBalanceUpdated,
     creditedBalanceUpdated,
   }: ITransaction): Promise<void>
+  getAllTransactions(user: string): Promise<Transaction[]>
 }

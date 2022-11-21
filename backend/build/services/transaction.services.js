@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable max-lines-per-function */
+const sequelize_1 = require("sequelize");
 const users_1 = __importDefault(require("../database/models/users"));
 const accounts_1 = __importDefault(require("../database/models/accounts"));
 const transactions_1 = __importDefault(require("../database/models/transactions"));
@@ -66,6 +67,35 @@ class TransactionService {
                 debitedBalanceUpdated: Number(accountUserCashOut.balance) - cashOutValue,
                 creditedBalanceUpdated: Number(accountUserCashIn.balance) + cashOutValue,
             };
+        });
+    }
+    getAllTransactions(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(this.transaction);
+            try {
+                const userDB = yield users_1.default.findOne({ where: { username: user } });
+                let transactions = [];
+                if (userDB) {
+                    const id = userDB.accountId;
+                    console.log(typeof id);
+                    console.log('henrique');
+                    transactions = yield transactions_1.default
+                        .findAll({
+                        where: {
+                            [sequelize_1.Op.or]: [
+                                { debitedAccountId: id },
+                                { creditedAccountId: id },
+                            ],
+                        },
+                    });
+                }
+                return transactions;
+            }
+            catch (err) {
+                console.log(err);
+                const e = new Error('Erro na transferencia');
+                throw e;
+            }
         });
     }
 }

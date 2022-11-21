@@ -28,5 +28,17 @@ class TransactionController {
             }
         });
     }
+    getAllTransactions(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { user } = req.body;
+                const transactions = yield this.transactionsService.getAllTransactions(user);
+                res.status(http_status_codes_1.StatusCodes.OK).json(transactions);
+            }
+            catch (err) {
+                next(err);
+            }
+        });
+    }
 }
 exports.default = TransactionController;

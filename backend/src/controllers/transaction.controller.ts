@@ -18,4 +18,15 @@ export default class TransactionController {
       next(err);
     }
   }
+
+  async getAllTransactions(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { user } = req.body;
+      const transactions = await this.transactionsService.getAllTransactions(user);
+
+      res.status(StatusCodes.OK).json(transactions);
+    } catch (err) {
+      next(err);
+    }
+  }
 }

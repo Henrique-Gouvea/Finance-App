@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+import { Op } from 'sequelize';
 import User from '../database/models/users';
 import Account from '../database/models/accounts';
 import Transaction from '../database/models/transactions';
@@ -73,5 +74,34 @@ export default class TransactionService implements IServiceTransactions {
       debitedBalanceUpdated: Number(accountUserCashOut.balance) - cashOutValue,
       creditedBalanceUpdated: Number(accountUserCashIn.balance) + cashOutValue,
     };
+  }
+
+  async getAllTransactions(user: string): Promise<Transaction[]> {
+    console.log(this.transaction);
+    try {
+      const userDB: User | null = await User.findOne({ where: { username: user } });
+      let transactions: Transaction[] = [];
+      if (userDB) {
+        const id = userDB.accountId;
+        console.log(typeof id);
+        console.log('henrique');
+
+        transactions = await Transaction
+          .findAll({
+            where: {
+              [Op.or]: [
+                { debitedAccountId: id },
+                { creditedAccountId: id },
+              ],
+            },
+          });
+      }
+      return transactions;
+    } catch (err) {
+      console.log(err);
+
+      const e = new Error('Erro na transferencia');
+      throw e;
+    }
   }
 }
