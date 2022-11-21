@@ -83,8 +83,6 @@ export default class TransactionService implements IServiceTransactions {
       let transactions: Transaction[] = [];
       if (userDB) {
         const id = userDB.accountId;
-        console.log(typeof id);
-        console.log('henrique');
 
         transactions = await Transaction
           .findAll({
@@ -99,7 +97,6 @@ export default class TransactionService implements IServiceTransactions {
       return transactions;
     } catch (err) {
       console.log(err);
-
       const e = new Error('Erro na transferencia');
       throw e;
     }

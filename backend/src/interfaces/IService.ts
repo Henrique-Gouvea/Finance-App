@@ -21,4 +21,9 @@ export interface IServiceTransactions {
     creditedBalanceUpdated,
   }: ITransaction): Promise<void>
   getAllTransactions(user: string): Promise<Transaction[]>
+  filterTransaction(
+    cashOut: boolean,
+    cashIn: boolean,
+    date: string,
+    user: string): Promise<Transaction[]>
 }

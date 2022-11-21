@@ -29,4 +29,16 @@ export default class TransactionController {
       next(err);
     }
   }
+
+  async filterTransaction(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { cashOut, cashIn, date, user } = req.body;
+      const transactions = await this.transactionsService
+        .filterTransaction(cashOut, cashIn, date, user);
+
+      res.status(StatusCodes.OK).json(transactions);
+    } catch (err) {
+      next(err);
+    }
+  }
 }

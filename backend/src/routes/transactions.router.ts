@@ -15,6 +15,7 @@ const transactionController = new TransactionController(transactionService);
 router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, next));
 
 router.get('/', transactionController.getAllTransactions.bind(transactionController));
-router.post('/cash-out', transactionController.cashOut.bind(transactionController));
+router.post('/', transactionController.cashOut.bind(transactionController));
+router.post('/filter', transactionController.filterTransaction.bind(transactionController));
 
 export default router;
