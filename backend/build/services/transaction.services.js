@@ -106,11 +106,13 @@ class TransactionService {
                             [sequelize_1.Op.or]: [
                                 { debitedAccountId: cashOut ? id : 0 },
                                 { creditedAccountId: cashIn ? id : 0 },
-                                // { createdAt: date && date === ? id : 0 },
                             ],
                         },
                     });
                 }
+                console.log(transactions);
+                // const dateFilteredTransactions = transactions.filter((transaction) => )
+                // console.log(dateFilteredTransactions);
                 return transactions;
             }
             catch (err) {
