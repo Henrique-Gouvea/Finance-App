@@ -43,9 +43,9 @@ class TransactionController {
     filterTransaction(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { cashOut, cashIn, date, user } = req.body;
+                const { cashOut, cashIn, startDate, endDate, user } = req.body;
                 const transactions = yield this.transactionsService
-                    .filterTransaction(cashOut, cashIn, date, user);
+                    .filterTransaction(cashOut, cashIn, startDate, endDate, user);
                 res.status(http_status_codes_1.StatusCodes.OK).json(transactions);
             }
             catch (err) {

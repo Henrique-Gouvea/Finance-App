@@ -24,6 +24,7 @@ export interface IServiceTransactions {
   filterTransaction(
     cashOut: boolean,
     cashIn: boolean,
-    date: string,
+    startDate: string,
+    endDate: string,
     user: string): Promise<Transaction[]>
 }

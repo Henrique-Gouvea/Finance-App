@@ -93,7 +93,7 @@ class TransactionService {
             }
         });
     }
-    filterTransaction(cashOut, cashIn, date, user) {
+    filterTransaction(cashOut, cashIn, startDate, endDate, user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const userDB = yield users_1.default.findOne({ where: { username: user } });
@@ -109,8 +109,32 @@ class TransactionService {
                             ],
                         },
                     });
+                    if (startDate && endDate) {
+                        const startDateConvert = new Date(startDate);
+                        const endDateConvert = new Date(endDate);
+                        // const startDateConvertBR = startDateConvert.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        // const endDateConvertBR = endDateConvert.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                        transactions = transactions.filter((trans) => (startDateConvert <= trans.createdAt
+                            && endDateConvert >= trans.createdAt));
+                        console.log(transactions);
+                    }
                 }
-                console.log(transactions);
+                // console.log(transactions);
+                // if (date) {
+                //   const dateConvert = new Date(date);
+                //   console.log(dateConvert.toLocaleDateString());
+                //   console.log(transactions[0].createdAt.toLocaleDateString());
+                //   const filteredTransactionsDate = transactions.filter((trans) => (
+                //     dateConvert.toLocaleDateString() === trans.createdAt.toLocaleDateString()
+                //   ));
+                //   console.log(filteredTransactionsDate);
+                // }
+                // const data1 = new Date(date);
+                // console.log(data1.toLocaleDateString());
+                // const teste = transactions[0].createdAt;
+                // console.log(teste.toLocaleDateString());
+                // console.log(teste);
+                // console.log(teste.toLocaleDateString() === data1.toLocaleDateString());
                 // const dateFilteredTransactions = transactions.filter((transaction) => )
                 // console.log(dateFilteredTransactions);
                 return transactions;

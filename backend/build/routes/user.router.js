@@ -17,7 +17,7 @@ const router = (0, express_1.Router)();
 const userService = new user_services_1.default(tokenProv, cryptoProv);
 const userController = new user_controller_1.default(userService);
 router.post('/cadaster', user_validation_1.default, userController.create.bind(userController));
-router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, next));
 router.post('/login', user_validation_1.default, userController.login.bind(userController));
+router.use((req, res, next) => tokenMiddleware.checkTokenMiddleware(req, res, next));
 router.get('/balance', userController.getBalance.bind(userController));
 exports.default = router;

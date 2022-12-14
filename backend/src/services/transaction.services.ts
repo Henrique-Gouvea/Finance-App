@@ -101,7 +101,8 @@ export default class TransactionService implements IServiceTransactions {
   async filterTransaction(
     cashOut: boolean,
     cashIn: boolean,
-    date: string,
+    startDate: string,
+    endDate: string,
     user: string,
   ): Promise<Transaction[]> {
     try {
@@ -119,11 +120,17 @@ export default class TransactionService implements IServiceTransactions {
               ],
             },
           });
-      }
-      console.log(transactions);
 
-      // const dateFilteredTransactions = transactions.filter((transaction) => )
-      // console.log(dateFilteredTransactions);
+        if (startDate && endDate) {
+          const startDateConvert = new Date(startDate);
+          const endDateConvert = new Date(endDate);
+
+          transactions = transactions.filter((trans) => (
+            startDateConvert <= trans.createdAt
+            && endDateConvert >= trans.createdAt
+          ));
+        }
+      }
 
       return transactions;
     } catch (err) {
