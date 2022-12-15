@@ -28,7 +28,7 @@ User.init({
         allowNull: false,
     },
     cpf: {
-        type: sequelize_1.INTEGER,
+        type: sequelize_1.STRING,
         allowNull: false,
     },
     email: {

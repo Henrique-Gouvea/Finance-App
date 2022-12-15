@@ -13,8 +13,8 @@ export default class UserService implements IServiceUser {
     private crypto: ICrypto,
   ) { }
 
-  async create(username: string, password: string): Promise<string> {
-    const userDB: User | null = await User.findOne({ where: { username } });
+  async create(username: string, password: string, cpf: number, email: string): Promise<string> {
+    const userDB: User | null = await User.findOne({ where: { username, cpf, email } });
     if (userDB) {
       const e = new Error('Usuario ja cadastrado!');
       e.name = 'Conflict';
@@ -25,8 +25,9 @@ export default class UserService implements IServiceUser {
     const passwordHash = this.crypto.encryptPassword(password);
     try {
       const account: Account = await Account.create({ balance });
-      await User.create({ accountId: account.id, username, password: passwordHash });
-    } catch {
+
+      await User.create({ accountId: account.id, username, password: passwordHash, cpf, email });
+    } catch (err) {
       const e = new Error('Erro ao conectar com o banco "create"');
       throw e;
     }

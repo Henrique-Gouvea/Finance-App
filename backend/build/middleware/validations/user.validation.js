@@ -67,7 +67,7 @@ const cadasterValidation = (req, _res, next) => {
     try {
         if (!validator.cpf.isValid(cpf)) {
             const e = new Error('CPF Inválido');
-            e.name = 'Unauthorized';
+            e.name = 'ValidationError';
             throw e;
         }
     }

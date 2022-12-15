@@ -3,7 +3,7 @@ import User from '../database/models/users';
 import { ITransaction } from './values/ITransaction';
 
 export interface IServiceUser {
-  create(username: string, password: string): Promise<string>
+  create(username: string, password: string, cpf: number, email: string): Promise<string>
   login(username: string, password: string): Promise<User>
   getBalance(user: string): Promise<number>
 }

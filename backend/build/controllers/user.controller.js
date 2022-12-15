@@ -18,8 +18,8 @@ class UserController {
     create(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { username, password } = req.body;
-                const token = yield this.userService.create(username, password);
+                const { username, password, cpf, email } = req.body;
+                const token = yield this.userService.create(username, password, cpf, email);
                 res.status(http_status_codes_1.StatusCodes.CREATED).json({ token });
             }
             catch (err) {

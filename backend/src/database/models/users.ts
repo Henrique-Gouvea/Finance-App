@@ -29,7 +29,7 @@ User.init({
     allowNull: false,
   },
   cpf: {
-    type: INTEGER,
+    type: STRING,
     allowNull: false,
   },
   email: {

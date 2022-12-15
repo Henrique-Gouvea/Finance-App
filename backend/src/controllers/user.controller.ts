@@ -8,9 +8,9 @@ export default class UserController {
 
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { username, password } = req.body;
+      const { username, password, cpf, email } = req.body;
 
-      const token = await this.userService.create(username, password);
+      const token = await this.userService.create(username, password, cpf, email);
       res.status(StatusCodes.CREATED).json({ token });
     } catch (err) {
       next(err);

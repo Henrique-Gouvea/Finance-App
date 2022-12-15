@@ -21,9 +21,9 @@ class UserService {
         this.token = token;
         this.crypto = crypto;
     }
-    create(username, password) {
+    create(username, password, cpf, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userDB = yield users_1.default.findOne({ where: { username } });
+            const userDB = yield users_1.default.findOne({ where: { username, cpf, email } });
             if (userDB) {
                 const e = new Error('Usuario ja cadastrado!');
                 e.name = 'Conflict';
@@ -33,9 +33,9 @@ class UserService {
             const passwordHash = this.crypto.encryptPassword(password);
             try {
                 const account = yield accounts_1.default.create({ balance });
-                yield users_1.default.create({ accountId: account.id, username, password: passwordHash });
+                yield users_1.default.create({ accountId: account.id, username, password: passwordHash, cpf, email });
             }
-            catch (_a) {
+            catch (err) {
                 const e = new Error('Erro ao conectar com o banco "create"');
                 throw e;
             }
