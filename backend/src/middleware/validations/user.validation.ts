@@ -3,6 +3,7 @@
 /* eslint-disable max-lines-per-function */
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
+import * as validator from 'cpf-cnpj-validator';
 
 const loginSchema = Joi.object({
   username: Joi.string().min(3).required()
@@ -29,7 +30,7 @@ const cadasterSchema = Joi.object({
     }),
   cpf: Joi.string().required()
     .messages({
-      'any.required': 'O \'cpf\' tem que existir\'',
+      'string.base': 'O \'cpf\' tem que existir\'',
     }),
 });
 
@@ -40,6 +41,15 @@ const cadasterValidation = (req: Request, _res: Response, next: NextFunction) =>
 
   if (reponseLogin.error) throw reponseLogin.error;
   if (responseCadaster.error) throw responseCadaster.error;
+  try {
+    if (!validator.cpf.isValid(cpf)) {
+      const e = new Error('CPF Inválido');
+      e.name = 'ValidationError';
+      throw e;
+    }
+  } catch (error) {
+    next(error);
+  }
 
   next();
 };

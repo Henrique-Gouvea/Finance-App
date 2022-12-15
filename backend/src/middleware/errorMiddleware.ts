@@ -21,6 +21,7 @@ const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
     case 'ValidationError':
       res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ message });
       break;
+
     default:
       res.sendStatus(500);
   }
