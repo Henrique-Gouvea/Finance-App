@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable max-lines-per-function */
 import { Request, Response, NextFunction } from 'express';
-
 import Joi from 'joi';
 
 const loginSchema = Joi.object({
@@ -28,9 +27,8 @@ const cadasterSchema = Joi.object({
       'string.email': 'O \'email\' tem que ser valido\'',
       'any.required': 'O \'email\' tem que existir\'',
     }),
-  cpf: Joi.string().regex(/[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/).required()
+  cpf: Joi.string().required()
     .messages({
-      'string.pattern.base': 'O \'cpf\' tem que ser valido\'',
       'any.required': 'O \'cpf\' tem que existir\'',
     }),
 });

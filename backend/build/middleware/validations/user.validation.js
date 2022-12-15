@@ -27,9 +27,8 @@ const cadasterSchema = joi_1.default.object({
         'string.email': 'O \'email\' tem que ser valido\'',
         'any.required': 'O \'email\' tem que existir\'',
     }),
-    cpf: joi_1.default.string().regex(/[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}-?[0-9]{2}/).required()
+    cpf: joi_1.default.string().required()
         .messages({
-        'string.pattern.base': 'O \'cpf\' tem que ser valido\'',
         'any.required': 'O \'cpf\' tem que existir\'',
     }),
 });

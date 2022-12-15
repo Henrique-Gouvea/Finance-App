@@ -27,6 +27,14 @@ User.init({
         type: sequelize_1.INTEGER,
         allowNull: false,
     },
+    cpf: {
+        type: sequelize_1.INTEGER,
+        allowNull: false,
+    },
+    email: {
+        type: sequelize_1.STRING,
+        allowNull: false,
+    },
     createdAt: {
         type: sequelize_1.DATE,
         allowNull: false,

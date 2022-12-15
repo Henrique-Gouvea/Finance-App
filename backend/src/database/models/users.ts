@@ -28,6 +28,14 @@ User.init({
     type: INTEGER,
     allowNull: false,
   },
+  cpf: {
+    type: INTEGER,
+    allowNull: false,
+  },
+  email: {
+    type: STRING,
+    allowNull: false,
+  },
   createdAt: {
     type: DATE,
     allowNull: false,
