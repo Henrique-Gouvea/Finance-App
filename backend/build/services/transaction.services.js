@@ -112,8 +112,11 @@ class TransactionService {
                     if (startDate && endDate) {
                         const startDateConvert = new Date(startDate);
                         const endDateConvert = new Date(endDate);
-                        transactions = transactions.filter((trans) => (startDateConvert <= trans.createdAt
-                            && endDateConvert >= trans.createdAt));
+                        const startLastHour = new Date(startDateConvert.getTime() + 24 * 60 * 60 * 999.99);
+                        const endLastHour = new Date(endDateConvert.getTime() + 24 * 60 * 60 * 999.99);
+                        console.log(transactions[1].createdAt);
+                        transactions = transactions.filter((trans) => (startLastHour <= trans.createdAt
+                            && endLastHour >= trans.createdAt));
                     }
                 }
                 return transactions;

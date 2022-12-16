@@ -124,10 +124,12 @@ export default class TransactionService implements IServiceTransactions {
         if (startDate && endDate) {
           const startDateConvert = new Date(startDate);
           const endDateConvert = new Date(endDate);
+          const startLastHour = new Date(startDateConvert.getTime() + 24 * 60 * 60 * 999.99);
+          const endLastHour = new Date(endDateConvert.getTime() + 24 * 60 * 60 * 999.99);
 
           transactions = transactions.filter((trans) => (
-            startDateConvert <= trans.createdAt
-            && endDateConvert >= trans.createdAt
+            startLastHour <= trans.createdAt
+            && endLastHour >= trans.createdAt
           ));
         }
       }
