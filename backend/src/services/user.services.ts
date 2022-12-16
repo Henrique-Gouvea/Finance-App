@@ -36,7 +36,7 @@ export default class UserService implements IServiceUser {
     return token;
   }
 
-  async login(username: string, password: string): Promise<User> {
+  async login(username: string, password: string): Promise<string> {
     const user: User | null = await User.findOne({ where: { username } });
     let valid = false;
     if (user) {
@@ -48,8 +48,8 @@ export default class UserService implements IServiceUser {
       e.name = 'NotFound';
       throw e;
     }
-
-    return user;
+    const token = this.token.generateToken(username);
+    return token;
   }
 
   async getBalance(user: string): Promise<number> {

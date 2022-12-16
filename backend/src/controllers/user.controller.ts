@@ -20,8 +20,8 @@ export default class UserController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { username, password } = req.body;
-      const user = await this.userService.login(username, password);
-      res.status(StatusCodes.OK).json({ user: user.username, id: user.id });
+      const token = await this.userService.login(username, password);
+      res.status(StatusCodes.OK).json({ token });
     } catch (err) {
       next(err);
     }

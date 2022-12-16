@@ -31,8 +31,8 @@ class UserController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { username, password } = req.body;
-                const user = yield this.userService.login(username, password);
-                res.status(http_status_codes_1.StatusCodes.OK).json({ user: user.username, id: user.id });
+                const token = yield this.userService.login(username, password);
+                res.status(http_status_codes_1.StatusCodes.OK).json({ token });
             }
             catch (err) {
                 next(err);

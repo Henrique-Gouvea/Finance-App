@@ -55,7 +55,8 @@ class UserService {
                 e.name = 'NotFound';
                 throw e;
             }
-            return user;
+            const token = this.token.generateToken(username);
+            return token;
         });
     }
     getBalance(user) {
