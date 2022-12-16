@@ -9,7 +9,7 @@
     "dev": "tsnd index.ts",
     "build": "npx tsc",
     "migrate": " npx sequelize-cli db:migrate",
-    "init": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize db:migrate"
+    "init": "npx -y tsc && npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize db:migrate && npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",

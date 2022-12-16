@@ -9,24 +9,24 @@ module.exports = {
         debited_account_id: 1,
         credited_account_id: 2,
         value: 10,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(Date.now() - 24 * 60 * 60 * 1000),
+        updated_at: new Date(Date.now() - 24 * 60 * 60 * 1000)
       },
       {
         id: 2,
         debited_account_id: 1,
         credited_account_id: 2,
         value: 15,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
       {
         id: 3,
         debited_account_id: 1,
         credited_account_id: 2,
         value: 5,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        created_at: new Date(),
+        updated_at: new Date()
       },
     ], {});
   },
